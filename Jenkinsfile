@@ -8,19 +8,19 @@ pipeline {
     }
     stage("maven build") {
       steps {
-        sh 'mvn clean package'
+        bat 'mvn clean package'
       }
     }
     // Uncomment and integrate the following stage for deploying to Tomcat
     /*
-    stage("tomcat deploy") {
-      steps {
-        sshagent("tomcat-dev") {
-          // copy war file to tomcat
-          sh "scp -o strictHostKeyChecking=no target/online-banking.war ec2-user:/path/to/tomcat/webapps"
-        }
-      }
-    }
+    // stage("tomcat deploy") {
+    //   steps {
+    //     sshagent("tomcat-dev") {
+    //       // copy war file to tomcat
+    //       sh "scp -o strictHostKeyChecking=no target/online-banking.war ec2-user:/path/to/tomcat/webapps"
+    //     }
+    //   }
+    // }
     */
   }
 }
