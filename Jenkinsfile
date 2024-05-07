@@ -7,11 +7,10 @@ pipeline {
       }
         
       }
-    stage ("tomcat deploy") {
-      steps {
+    
         
       }
     }
         
-  }
-}
+  
+
