@@ -3,8 +3,8 @@ pipeline {
   stages {
     stage ( "git checkout"){
       steps{
-        git branch: main
-        repo url: 
+        git branch: 'main'
+         url: 'https://github.com/Manikanta03091998/dev-ops.git'
       }
     }
     stage("maven build") {
