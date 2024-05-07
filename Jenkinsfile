@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage ("git checkout") {
+    stage ("main") {
       steps {
         git branch: 'main', url: 'https://github.com/Manikanta03091998/dev-ops.git'
       }
