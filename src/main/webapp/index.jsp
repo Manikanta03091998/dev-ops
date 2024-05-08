@@ -61,7 +61,7 @@
 </head>
 <body>
     <header>
-        <div class="logo">Java Home Cloud</div>
+        <div class="logo">Java Home Cloud Bengalore</div>
     </header>
     <div class="center-text">
         <h2>welcome to javahome cloud Bangalore</h2>
