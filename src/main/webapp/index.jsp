@@ -64,7 +64,7 @@
         <div class="logo">Java Home Cloud</div>
     </header>
     <div class="center-text">
-        <h1>welcome to javahome cloud Bangalore</h1>
+        <h2>welcome to javahome cloud Bangalore</h2>
         <p class="subtitle">Transform Your Career with Our DevOps and AWS Courses - Start or Elevate Your Journey!</p>
         <div class="link-container">
             <a href="https://instagram.com/javahomecloud" target="_blank"><i class="fab fa-instagram icon"></i>Follow us on Instagram</a>
