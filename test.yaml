@@ -1,6 +1,6 @@
 ---
 - name: Copy file to new machine
-  hosts: destination_machine
+  hosts: 16.170.228.237
   tasks:
     - name: Copy file
       ansible.builtin.copy:
