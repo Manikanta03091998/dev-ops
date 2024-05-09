@@ -4,5 +4,5 @@
   tasks:
     - name: Copy file
       ansible.builtin.copy:
-        src: /path/to/source/file.txt
-        dest: /path/to/destination/file.txt
+        src: /var/lib/jenkins/workspace/tomcat-deploy/target/devops-app.war
+        dest: /home/ec2-user/apache-tomcat-10.1.23/webapps
