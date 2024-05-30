@@ -1,1 +1,97 @@
+Deploy to EC2
 
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        ref: develop
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'  # specify your desired Python version
+
+    - name: Install dependencies
+      run: |
+        python3.11 -m venv dev
+        source dev/bin/activate
+        pip install -r src/edrmanager/requirements.txt
+
+    # - name: Run tests
+    #   run: |
+    #     source dev/bin/activate
+    #     pytest  # or your specific test command
+
+    - name: Create .zip file
+      run: zip -r deployment.zip ./*
+
+    - name: Add SSH key and run commands
+      run: |
+        echo "${{ secrets.EC2_PEM_FILE }}" > key.pem
+        chmod 600 key.pem
+        scp -o "StrictHostKeyChecking=no" -i key.pem deployment.zip ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ec2-user/myapp/
+        ssh -o "StrictHostKeyChecking=no" -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          sudo unzip -o /home/ec2-user/myapp/*.zip -d /home/ec2-user/myapp  # Extract artifacts to a specific directory
+          sudo systemctl restart nginx  
+
+    # - name: Set up SSH key
+    #   run: echo "${{ secrets.EC2_PEM_FILE }}" > private_key && chmod 600 private_key  
+
+    # - name: Copy file to EC2
+    #   uses: appleboy/scp-action@v0.1.1
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ${{ secrets.EC2_USER }}
+    #     key: ${{ secrets.EC2_PEM_FILE }}
+    #     source: 'deployment.zip'
+    #     target: '/home/${{ secrets.EC2_USER }}/deployment.zip'
+
+    # - name: Upload to GitHub Artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: application
+    #     path: application.zip
+        
+  # download:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Download Artifacts
+  #     uses: actions/download-artifact@v3
+  #     with:
+  #       name: application
+  #       path: ${{ github.workspace }}      
+
+  # ssh:
+  #   runs-on: ubuntu-latest
+  #   needs: build  # Ensure ssh job runs after build job
+
+  #   steps:
+  #   - name: Use GitHub Actions checkout
+  #     uses: actions/checkout@v2
+
+  #   - name: Add SSH key and run commands
+  #     run: |
+  #       echo "${{ secrets.EC2_PEM_FILE }}" > key.pem
+  #       chmod 600 key.pem
+  #       scp -o -r "StrictHostKeyChecking=no" -i key.pem ${{ github.workspace }}/* ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ec2-user/myapp/
+  #       ssh -o "StrictHostKeyChecking=no" -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+  #         sudo unzip -o /home/ec2-user/myapp/application.zip -d /home/ec2-user/myapp  # Extract artifacts to a specific directory
+  #         sudo systemctl restart nginx
+  #       EOF
+      env:
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+
+    - name: Clean up
+      run: rm key.pem
