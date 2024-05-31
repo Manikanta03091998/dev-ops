@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: manikanta1545/tomcat:0.0.1
+        image: jenkins/jenkins
         ports:
         - containerPort: 80
