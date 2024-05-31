@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: manikanta1545/mani:0.0.1
+        image: tomcat
         ports:
         - containerPort: 80
 
