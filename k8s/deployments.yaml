@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: sharath71/sharath71-bottomline:bottomlinet3
+        image: sharath71/sharath71-botli:0.0.1
         ports:
         - containerPort: 80
