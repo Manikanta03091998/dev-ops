@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: jenkins/jenkins
+        image: sharath71/sharath71-bottomline
         ports:
         - containerPort: 80
